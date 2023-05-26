@@ -84,7 +84,7 @@ function displayContactDetails(event) {
   document.querySelector("#first-name").innerText = contact.firstName;
   document.querySelector("#last-name").innerText = contact.lastName;
   document.querySelector("#phone-number").innerText = contact.phoneNumber;
-  document.querySelector("#email-address").innerText = contact.emailAddress;
+  document.querySelector("#email-address").innerText = contact.emailAddresses.emailAddresses;
   document.querySelector("#address").innerText = contact.address;
   document.querySelector("button.delete").setAttribute("id", contact.id);
   document.querySelector("div#contact-details").removeAttribute("class");
@@ -99,12 +99,28 @@ function handleDelete(event) {
 
 function handleFormSubmission(event) {
   event.preventDefault();
+  let emailAddressBook = new EmailAddressBook();
   const inputtedFirstName = document.querySelector("input#new-first-name").value;
   const inputtedLastName = document.querySelector("input#new-last-name").value;
   const inputtedPhoneNumber = document.querySelector("input#new-phone-number").value;
-  const inputtedEmailAddress = document.querySelector("input#new-email-address").value;
+  const inputtedEmailAddress1 = document.querySelector("input#new-email-address").value;
+  const inputtedEmailAddress2 = document.querySelector("input#new-email-address-two").value;
+  const inputtedEmailAddress3 = document.querySelector("input#new-email-address-three").value;
+  const inputtedEmailAddressType1 = document.querySelector("input#new-email-address-type").value;
+  const inputtedEmailAddressType2 = document.querySelector("input#new-email-address-type-two").value;
+  const inputtedEmailAddressType3 = document.querySelector("input#new-email-address-type-three").value;
   const inputtedAddress = document.querySelector("input#new-address").value;
-  let newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber, inputtedEmailAddress, inputtedAddress);
+  const newEmailAddress1 = new EmailAddress(inputtedEmailAddress1, inputtedEmailAddressType1);
+  emailAddressBook.addEmailAddress(newEmailAddress1);
+  if (inputtedEmailAddress2 != '') {
+    const newEmailAddress2 = new EmailAddress(inputtedEmailAddress2, inputtedEmailAddressType2);
+    emailAddressBook.addEmailAddress(newEmailAddress2);
+  }
+  if (inputtedEmailAddress3 != '') {
+    const newEmailAddress3 = new EmailAddress(inputtedEmailAddress3, inputtedEmailAddressType3);
+    emailAddressBook.addEmailAddress(newEmailAddress3);
+  }
+  const newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber, emailAddressBook, inputtedAddress);
   addressBook.addContact(newContact);
   listContacts(addressBook);
   document.querySelector("input#new-first-name").value = null;
